@@ -288,6 +288,94 @@ namespace DiscordBot
                             .AsEphemeral(true));
                     }
                     break;
+                case "closeoropen":
+
+                    var jsonReader4 = new JSONreader();
+                    await jsonReader4.ReadJson();
+                    var member2 = await ev.Guild.GetMemberAsync(ev.Interaction.User.Id);
+
+                    if (!member2.Roles.Any(r => r.Id == jsonReader4.rolemention || r.Id == jsonReader4.rolementionnr))
+                    {
+                        await ev.Interaction.CreateResponseAsync(
+                            InteractionResponseType.ChannelMessageWithSource,
+                            new DiscordInteractionResponseBuilder()
+                                .WithContent("❌ У вас нет прав для использования этой кнопки")
+                                .AsEphemeral(true));
+                        return;
+                    }
+                    var buttonMessage2 = await ev.Interaction.Channel.GetMessageAsync(ev.Message.Id);
+                    var embedmes = buttonMessage2.Embeds[0];
+
+
+
+
+                    var disabledButtons3 = new List<DiscordButtonComponent>
+                        {
+                            new DiscordButtonComponent(ButtonStyle.Primary, "mrp", "Подать заявку",
+                                emoji: new DiscordComponentEmoji("📩"), disabled: true),
+                            new DiscordButtonComponent(ButtonStyle.Success, "open", "Открыть заявку",
+                                emoji: new DiscordComponentEmoji("🔓"), disabled: false),
+                        };
+
+
+
+
+
+
+                    await ev.Interaction.CreateResponseAsync(
+                            InteractionResponseType.ChannelMessageWithSource,
+                            new DiscordInteractionResponseBuilder()
+                                .WithContent("✅ Вы закрыли заявку")
+                                .AsEphemeral(true));
+                    await buttonMessage2.ModifyAsync(new DiscordMessageBuilder()
+                        .WithEmbed(embedmes)
+                        .AddComponents(disabledButtons3));
+
+                    break;
+                case "open":
+
+                    var jsonReader5 = new JSONreader();
+                    await jsonReader5.ReadJson();
+                    var member4 = await ev.Guild.GetMemberAsync(ev.Interaction.User.Id);
+
+                    if (!member4.Roles.Any(r => r.Id == jsonReader5.rolemention || r.Id == jsonReader5.rolementionnr))
+                    {
+                        await ev.Interaction.CreateResponseAsync(
+                            InteractionResponseType.ChannelMessageWithSource,
+                            new DiscordInteractionResponseBuilder()
+                                .WithContent("❌ У вас нет прав для использования этой кнопки")
+                                .AsEphemeral(true));
+                        return;
+                    }
+                    var buttonMessage3 = await ev.Interaction.Channel.GetMessageAsync(ev.Message.Id);
+                    var embedmes2 = buttonMessage3.Embeds[0];
+
+
+
+
+                    var disabledButtons4 = new List<DiscordButtonComponent>
+                        {
+                            new DiscordButtonComponent(ButtonStyle.Primary, "mrp", "Подать заявку",
+                                emoji: new DiscordComponentEmoji("📩"), disabled: false),
+                            new DiscordButtonComponent(ButtonStyle.Danger, "closeoropen", "Закрыть заявку",
+                                emoji: new DiscordComponentEmoji("🔒"), disabled: false),
+                        };
+
+
+
+
+
+
+                    await ev.Interaction.CreateResponseAsync(
+                            InteractionResponseType.ChannelMessageWithSource,
+                            new DiscordInteractionResponseBuilder()
+                                .WithContent("✅ Вы открыли заявку")
+                                .AsEphemeral(true));
+                    await buttonMessage3.ModifyAsync(new DiscordMessageBuilder()
+                        .WithEmbed(embedmes2)
+                        .AddComponents(disabledButtons4));
+
+                    break;
             }
         }
 

@@ -17,7 +17,7 @@ namespace DiscordBot.commands
 
 
         [Command(name: "createbtn")]
-        [RequireRoles(RoleCheckMode.MatchIds, roleIds: new ulong[] { 1162457149365026866, 1287447456505790557, 1287447467679551572, 1383096589601476718, 1287447473744252978, 1383087406479183902, 1383079478779183135, 1287447515087634545 })]
+        //[RequireRoles(RoleCheckMode.MatchIds, roleIds: new ulong[] { 1162457149365026866, 1287447456505790557, 1287447467679551572, 1383096589601476718, 1287447473744252978, 1383087406479183902, 1383079478779183135, 1287447515087634545 })]
         public async Task CreateBtn(CommandContext ctx)
         {
 
@@ -25,6 +25,7 @@ namespace DiscordBot.commands
             var jsonReader = new DiscordBot.config.JSONreader();
             await jsonReader.ReadJson();
             var button = new DiscordButtonComponent(ButtonStyle.Primary, customId: "mrp", label: "Подать заявку", emoji: new DiscordComponentEmoji("📩"));
+            var button2 = new DiscordButtonComponent(ButtonStyle.Danger, customId: "closeoropen", label: "Закрыть заявку", emoji: new DiscordComponentEmoji("🔒"));
             var embed = new DiscordEmbedBuilder()
             {
                 Title = "Подача заявок",
@@ -39,7 +40,7 @@ namespace DiscordBot.commands
             embed.AddField("Критерии", text, inline: true);
             var messageBuilder = new DiscordMessageBuilder()
                 .AddEmbed(embed.Build())
-                .AddComponents(button);
+                .AddComponents(button, button2);
             await ctx.Channel.SendMessageAsync(messageBuilder);
         }
 
